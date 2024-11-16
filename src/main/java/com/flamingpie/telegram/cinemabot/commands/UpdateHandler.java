@@ -8,17 +8,10 @@ import com.flamingpie.telegram.cinemabot.controllers.LetterboxdController;
 import com.flamingpie.telegram.cinemabot.letterboxd.FilmSearchItem;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
-import com.pengrad.telegrambot.model.ChosenInlineResult;
 import com.pengrad.telegrambot.model.InlineQuery;
-import com.pengrad.telegrambot.model.MessageEntity;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.model.request.InlineQueryResult;
-import com.pengrad.telegrambot.model.request.InlineQueryResultArticle;
 import com.pengrad.telegrambot.model.request.InlineQueryResultPhoto;
-import com.pengrad.telegrambot.model.request.InputMediaPhoto;
-import com.pengrad.telegrambot.model.request.InputMessageContent;
-import com.pengrad.telegrambot.model.request.InputTextMessageContent;
-import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.AnswerInlineQuery;
 import java.io.IOException;
 import java.util.List;
@@ -72,6 +65,8 @@ public class UpdateHandler {
                     String title = "%s (%s) Rating: %s".formatted(searchItem.getFilm().getName(), 
                             searchItem.getFilm().getReleaseYear(), 
                             searchItem.getFilm().getRatingStars());
+                    
+                    String caption = title + "\n Genres: " + searchItem.getFilm().getGenresString();
 
                     InlineQueryResult queryResult = new InlineQueryResultPhoto(String.valueOf(i),
                             posterUrl,
@@ -80,7 +75,7 @@ public class UpdateHandler {
                             .photoHeight(900)
                             .description(title)
                             .title(title)
-                            .caption(title);
+                            .caption(caption);
 
                     result[i] = queryResult;
                 }

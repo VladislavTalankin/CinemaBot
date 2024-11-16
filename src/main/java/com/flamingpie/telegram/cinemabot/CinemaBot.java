@@ -5,9 +5,7 @@
 package com.flamingpie.telegram.cinemabot;
 
 import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.request.BaseRequest;
 import com.pengrad.telegrambot.request.SetWebhook;
-import com.pengrad.telegrambot.response.BaseResponse;
 import java.io.File;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +21,7 @@ public class CinemaBot extends TelegramBot {
         try {
             File certificate = new File(getClass().getClassLoader().getResource("public.pem").getFile());
             SetWebhook request = new SetWebhook()
-                    .url("https://5.199.200.249:443/webhook")
+                    .url("https://5.43.153.114:443/webhook")
                     .certificate(certificate)
                     .dropPendingUpdates(true);
             execute(request).toString();
