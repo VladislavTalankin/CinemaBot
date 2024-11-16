@@ -66,7 +66,7 @@ public class UpdateHandler {
                             searchItem.getFilm().getReleaseYear(), 
                             searchItem.getFilm().getRatingStars());
                     
-                    String caption = title + "\n Genres: " + searchItem.getFilm().getGenresString();
+                    String caption = title + "\nGenres: " + searchItem.getFilm().getGenresString();
 
                     InlineQueryResult queryResult = new InlineQueryResultPhoto(String.valueOf(i),
                             posterUrl,

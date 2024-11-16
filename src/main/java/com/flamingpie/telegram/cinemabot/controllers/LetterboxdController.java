@@ -18,7 +18,7 @@ public class LetterboxdController {
 
     private final OkHttpClient client = new OkHttpClient();
     private static final ObjectMapper MAPPER = new ObjectMapper();
-
+    
     public List<FilmSearchItem> searchFilm(String name) throws IOException {
         if (name == null || name.isBlank() || name.length() < 2) {
             return new ArrayList();
