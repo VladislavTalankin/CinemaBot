@@ -1,7 +1,6 @@
 package com.flamingpie.telegram.cinemabot.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.flamingpie.telegram.cinemabot.letterboxd.FilmSearchItem;
 import com.flamingpie.telegram.cinemabot.letterboxd.SearchResponse;
 import okhttp3.OkHttpClient;
