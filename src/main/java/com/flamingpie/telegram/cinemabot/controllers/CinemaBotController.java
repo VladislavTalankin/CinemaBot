@@ -16,7 +16,7 @@ public class CinemaBotController {
     @Autowired
     private UpdateHandler handler;
 
-    @PostMapping(value = "webhook")
+    @PostMapping(value = "/webhook")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public int webhook(@RequestBody String updateJson) {
         Update update = BotUtils.parseUpdate(updateJson);
