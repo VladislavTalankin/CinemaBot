@@ -1,7 +1,8 @@
 package com.flamingpie.telegram.cinemabot.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.flamingpie.telegram.cinemabot.letterboxd.FilmSearchItem;
+import com.flamingpie.telegram.cinemabot.letterboxd.AbstractSearchItem;
 import com.flamingpie.telegram.cinemabot.letterboxd.SearchResponse;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -9,38 +10,48 @@ import okhttp3.Response;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
 public class LetterboxdController {
 
-    private final OkHttpClient client = new OkHttpClient();
-    private static final ObjectMapper MAPPER = new ObjectMapper();
-    
-    public List<FilmSearchItem> searchFilm(String name) throws IOException {
-        if (name == null || name.isBlank() || name.length() < 2) {
-            return new ArrayList();
-        }
+    @Autowired
+    private OkHttpClient client;
 
+    @Autowired
+    private ObjectMapper mapper;
+
+    public <T extends AbstractSearchItem> SearchResponse<T> searchItem(Class<T> searchItem, String searchString) {
+        if (searchString == null || searchString.isBlank()) {
+            return new SearchResponse();
+        }
+        
+        StringBuilder requestString = new StringBuilder("https://api.letterboxd.com/api/v0/search?input=")
+                .append(searchString.trim())
+                .append("&searchMethod=")
+                .append("Autocomplete")
+                .append("&include=")
+                .append(searchItem.getSimpleName());
+        
         Request request = new Request.Builder()
-                .url("https://api.letterboxd.com/api/v0/search?input=" + name + "&searchMethod=Autocomplete&include=FilmSearchItem")
+                .url(requestString.toString())
                 .build();
-
-        try (Response response = client.newCall(request).execute()) {
+        try {
+            Response response = client.newCall(request).execute();
             if (response.body() == null) {
-                return new ArrayList();
+                return new SearchResponse();
             }
+            String content = response.body().string();
+            return mapper.readValue(content, SearchResponse.class);
 
-            String body = response.body().string();
-
-            if (body == null) {
-                return new ArrayList();
-            }
-
-            SearchResponse searchResponse = MAPPER.readValue(body, SearchResponse.class);
-
-            return (List<FilmSearchItem>) searchResponse.getItems();
+        } catch (JsonProcessingException ex) {
+            Logger.getLogger(LetterboxdController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(LetterboxdController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return new SearchResponse();
     }
 }

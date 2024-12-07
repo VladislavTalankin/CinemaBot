@@ -4,6 +4,7 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.request.SetWebhook;
 import java.io.IOException;
 import java.io.InputStream;
+import okhttp3.OkHttpClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -12,7 +13,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class CinemabotApplication extends SpringBootServletInitializer {
-
+    
     public static void main(String[] args) {
         SpringApplication.run(CinemabotApplication.class, args);
     }
@@ -33,5 +34,11 @@ public class CinemabotApplication extends SpringBootServletInitializer {
                 .dropPendingUpdates(true);
         telegramBot.execute(request);
         return telegramBot;
+    }
+    
+    @Bean
+    public OkHttpClient getHttpClient()
+    {
+        return new OkHttpClient();
     }
 }

@@ -6,22 +6,24 @@ package com.flamingpie.telegram.cinemabot.letterboxd;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author Admin
+ * @param <T>
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SearchResponse implements Serializable {
+public class SearchResponse<T  extends AbstractSearchItem> implements Serializable {
 
-    private List<? extends AbstractSearchItem> items;
+    private List<T> items = new ArrayList();
 
-    public List<? extends AbstractSearchItem> getItems() {
+    public List<T> getItems() {
         return items;
     }
 
-    public void setItems(List<? extends AbstractSearchItem> items) {
+    public void setItems(List<T> items) {
         this.items = items;
     }
 

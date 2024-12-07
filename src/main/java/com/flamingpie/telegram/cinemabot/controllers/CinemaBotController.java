@@ -1,7 +1,6 @@
 package com.flamingpie.telegram.cinemabot.controllers;
 
-import com.flamingpie.telegram.cinemabot.commands.UpdateHandler;
-import com.pengrad.telegrambot.model.Update;
+import com.flamingpie.telegram.cinemabot.services.UpdateHandler;
 import com.pengrad.telegrambot.utility.BotUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,8 +18,7 @@ public class CinemaBotController {
     @PostMapping(value = "/webhook")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public int webhook(@RequestBody String updateJson) {
-        Update update = BotUtils.parseUpdate(updateJson);
-        return handler.process(update);
+        return handler.process(BotUtils.parseUpdate(updateJson));
     }
 
 }
