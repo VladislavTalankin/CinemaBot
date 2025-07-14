@@ -25,7 +25,7 @@ public class CinemabotApplication extends SpringBootServletInitializer {
 
     @Bean
     public TelegramBot getTelegramBot() throws IOException {
-        TelegramBot telegramBot = new TelegramBot("7942406818:AAH1yz1wF_ixvb4VEpzOHaRJ85GpgCz1FME");
+        TelegramBot telegramBot = new TelegramBot("TOKEN_HERE");
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream inputStream = classloader.getResourceAsStream("public.pem");
         SetWebhook request = new SetWebhook()
